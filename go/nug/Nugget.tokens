@@ -1,0 +1,14 @@
+T__0=1
+T__1=2
+LOAD=3
+SELECT=4
+FROM=5
+WS=6
+Id=7
+ROOT=8
+ATTR_LIST=9
+';'=1
+','=2
+'load'=3
+'select'=4
+'from'=5
