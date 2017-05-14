@@ -3,6 +3,13 @@
 package parser // Nugget
 
 import "github.com/antlr/antlr4/runtime/Go/antlr"
+import "math"
+import "fmt"
+import "strconv"
+
+var (
+	hist []float64
+)
 
 // BaseNuggetListener is a complete listener for a parse tree produced by NuggetParser.
 type BaseNuggetListener struct{}
@@ -27,35 +34,11 @@ func (s *BaseNuggetListener) EnterNugget(ctx *NuggetContext) {}
 // ExitNugget is called when production nugget is exited.
 func (s *BaseNuggetListener) ExitNugget(ctx *NuggetContext) {}
 
-// EnterInitextract is called when production initextract is entered.
-func (s *BaseNuggetListener) EnterInitextract(ctx *InitextractContext) {}
+// EnterLoad_stat is called when production load_stat is entered.
+func (s *BaseNuggetListener) EnterLoad_stat(ctx *Load_statContext) {}
 
-// ExitInitextract is called when production initextract is exited.
-func (s *BaseNuggetListener) ExitInitextract(ctx *InitextractContext) {}
-
-// EnterExecute is called when production execute is entered.
-func (s *BaseNuggetListener) EnterExecute(ctx *ExecuteContext) {}
-
-// ExitExecute is called when production execute is exited.
-func (s *BaseNuggetListener) ExitExecute(ctx *ExecuteContext) {}
-
-// EnterSubtype is called when production subtype is entered.
-func (s *BaseNuggetListener) EnterSubtype(ctx *SubtypeContext) {}
-
-// ExitSubtype is called when production subtype is exited.
-func (s *BaseNuggetListener) ExitSubtype(ctx *SubtypeContext) {}
-
-// EnterTask is called when production task is entered.
-func (s *BaseNuggetListener) EnterTask(ctx *TaskContext) {}
-
-// ExitTask is called when production task is exited.
-func (s *BaseNuggetListener) ExitTask(ctx *TaskContext) {}
-
-// EnterTarget is called when production target is entered.
-func (s *BaseNuggetListener) EnterTarget(ctx *TargetContext) {}
-
-// ExitTarget is called when production target is exited.
-func (s *BaseNuggetListener) ExitTarget(ctx *TargetContext) {}
+// ExitLoad_stat is called when production load_stat is exited.
+func (s *BaseNuggetListener) ExitLoad_stat(ctx *Load_statContext) {}
 
 // EnterField is called when production field is entered.
 func (s *BaseNuggetListener) EnterField(ctx *FieldContext) {}
@@ -73,4 +56,14 @@ func (s *BaseNuggetListener) ExitSourceidentifier(ctx *SourceidentifierContext) 
 func (s *BaseNuggetListener) EnterSin(ctx *SinContext) {}
 
 // ExitSin is called when production sin is exited.
-func (s *BaseNuggetListener) ExitSin(ctx *SinContext) {}
+func (s *BaseNuggetListener) ExitSin(ctx *SinContext) float64 {
+	//x := ctx.parser.GetCurrentToken().GetText()
+	y := ctx.NUMBER().GetText()
+	x,_ := strconv.ParseFloat(y, 64)
+	hist = append(hist,x)
+	fmt.Println("x := ", math.Sin(x))
+	for _,h := range hist {
+		fmt.Println("h := ", math.Sin(h))
+	}
+	return math.Sin(x)
+}

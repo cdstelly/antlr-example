@@ -11,20 +11,8 @@ type NuggetListener interface {
 	// EnterNugget is called when entering the nugget production.
 	EnterNugget(c *NuggetContext)
 
-	// EnterInitextract is called when entering the initextract production.
-	EnterInitextract(c *InitextractContext)
-
-	// EnterExecute is called when entering the execute production.
-	EnterExecute(c *ExecuteContext)
-
-	// EnterSubtype is called when entering the subtype production.
-	EnterSubtype(c *SubtypeContext)
-
-	// EnterTask is called when entering the task production.
-	EnterTask(c *TaskContext)
-
-	// EnterTarget is called when entering the target production.
-	EnterTarget(c *TargetContext)
+	// EnterLoad_stat is called when entering the load_stat production.
+	EnterLoad_stat(c *Load_statContext)
 
 	// EnterField is called when entering the field production.
 	EnterField(c *FieldContext)
@@ -38,20 +26,8 @@ type NuggetListener interface {
 	// ExitNugget is called when exiting the nugget production.
 	ExitNugget(c *NuggetContext)
 
-	// ExitInitextract is called when exiting the initextract production.
-	ExitInitextract(c *InitextractContext)
-
-	// ExitExecute is called when exiting the execute production.
-	ExitExecute(c *ExecuteContext)
-
-	// ExitSubtype is called when exiting the subtype production.
-	ExitSubtype(c *SubtypeContext)
-
-	// ExitTask is called when exiting the task production.
-	ExitTask(c *TaskContext)
-
-	// ExitTarget is called when exiting the target production.
-	ExitTarget(c *TargetContext)
+	// ExitLoad_stat is called when exiting the load_stat production.
+	ExitLoad_stat(c *Load_statContext)
 
 	// ExitField is called when exiting the field production.
 	ExitField(c *FieldContext)
@@ -60,5 +36,5 @@ type NuggetListener interface {
 	ExitSourceidentifier(c *SourceidentifierContext)
 
 	// ExitSin is called when exiting the sin production.
-	ExitSin(c *SinContext)
+	ExitSin(c *SinContext) float64
 }

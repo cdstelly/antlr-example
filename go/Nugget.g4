@@ -1,4 +1,3 @@
-
 grammar Nugget;
 
 tokens {
@@ -7,28 +6,60 @@ tokens {
 	ATTR_LIST
 }
 
-nugget
-   : load_stat EOF
-   ;
+nugget: sin EOF
+	| execute EOF
+	| initextract EOF
+	| EOF
+;
 
-load_stat
-   : LOAD field FROM sourceidentifier ';'
-   ;
+initextract : Id '=' target EXTRACT subtype
+;
 
+execute	: (Id '=') task sourceidentifier ';'
+;
+
+subtype	: FILES
+	| IMAGES
+;
+
+task    : HASH
+	| EXTRACT
+;
+
+target  : '"' Source '"' 
+;
+	
 field
-   : Id (',' Id)*
-   ;
+	: Id (',' Id)*
+	| '\'' field '\''
+;
 
 sourceidentifier
-   : Id
-   ;
+	: Id
+	| '\'' sourceidentifier '\''
+;
 
-LOAD:'load';
+sin
+	: SIN '(' NUMBER ')'
+;
+
+SIN: 'sin';
+LOAD:'load'|'LOAD';
+FROM: 'from'|'FROM';
+
 SELECT: 'select';
-FROM: 'from';
+
+HASH: 'hash'; 
+EXTRACT: 'extract';
+FILES: 'files'|'FILES';
+IMAGES: 'images'|'IMAGES';
 
 WS: [ \n\t\r]+ -> skip;
 
-Id    : ('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '_' | Digit)*;
-fragment Digit : '0'..'9';
+Id    	: ('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '_' | DIGIT)*;
+Source  : ('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '_' | ':' | '.' | DIGIT)*;
+
+NUMBER: DIGIT+ ;
+
+fragment DIGIT : '0'..'9';
 

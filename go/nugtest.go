@@ -17,13 +17,11 @@ func NewTreeShapeListener() *TreeShapeListener {
 }
 
 func (this *TreeShapeListener) EnterEveryRule(ctx antlr.ParserRuleContext) {
-	fmt.Println(ctx.GetText())
+	// fmt.Println(ctx.GetText())
 }
 
 func main() {
 	//fi, _ := antlr.NewFileStream(os.Args[1])
-	//fi, _ := antlr.NewInputStream(os.NewFile(0, "stdin"))
-
 	stdin := bufio.NewReader(os.NewFile(0, "stdin"))
 	for {
 		fmt.Printf("nugget> ")
@@ -40,12 +38,10 @@ func main() {
 			p.BuildParseTrees = true	//necessary?
 			tree := p.Nugget()
 			antlr.ParseTreeWalkerDefault.Walk(NewTreeShapeListener(), tree)
-
 		} else {
 			break
 		}
 	}
-
 }
 
 func readline(fi *bufio.Reader) (string, bool) {
@@ -55,4 +51,3 @@ func readline(fi *bufio.Reader) (string, bool) {
 	}
 	return s, true
 }
-
