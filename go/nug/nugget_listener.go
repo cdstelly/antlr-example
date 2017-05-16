@@ -32,6 +32,9 @@ type NuggetListener interface {
 	// EnterSourceidentifier is called when entering the sourceidentifier production.
 	EnterSourceidentifier(c *SourceidentifierContext)
 
+	// EnterPrintId is called when entering the printId production.
+	EnterPrintId(c *PrintIdContext)
+
 	// EnterSin is called when entering the sin production.
 	EnterSin(c *SinContext)
 
@@ -58,6 +61,9 @@ type NuggetListener interface {
 
 	// ExitSourceidentifier is called when exiting the sourceidentifier production.
 	ExitSourceidentifier(c *SourceidentifierContext)
+
+	// ExitPrintId is called when exiting the printId production.
+	ExitPrintId(c *PrintIdContext)
 
 	// ExitSin is called when exiting the sin production.
 	ExitSin(c *SinContext)

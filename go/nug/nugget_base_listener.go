@@ -3,11 +3,18 @@
 package parser // Nugget
 
 import "github.com/antlr/antlr4/runtime/Go/antlr"
+import "fmt"
+
 
 // BaseNuggetListener is a complete listener for a parse tree produced by NuggetParser.
 type BaseNuggetListener struct{}
 
 var _ NuggetListener = &BaseNuggetListener{}
+var History map[string]string
+
+func init () {
+	History = make(map[string]string)
+}
 
 // VisitTerminal is called when a terminal node is visited.
 func (s *BaseNuggetListener) VisitTerminal(node antlr.TerminalNode) {}
@@ -28,7 +35,11 @@ func (s *BaseNuggetListener) EnterNugget(ctx *NuggetContext) {}
 func (s *BaseNuggetListener) ExitNugget(ctx *NuggetContext) {}
 
 // EnterInitextract is called when production initextract is entered.
-func (s *BaseNuggetListener) EnterInitextract(ctx *InitextractContext) {}
+func (s *BaseNuggetListener) EnterInitextract(ctx *InitextractContext) {
+        id := ctx.Id().GetText()
+	val := ctx.Target().GetText() + ":" + ctx.Subtype().GetText()
+	History[id] = val
+}
 
 // ExitInitextract is called when production initextract is exited.
 func (s *BaseNuggetListener) ExitInitextract(ctx *InitextractContext) {}
@@ -68,6 +79,20 @@ func (s *BaseNuggetListener) EnterSourceidentifier(ctx *SourceidentifierContext)
 
 // ExitSourceidentifier is called when production sourceidentifier is exited.
 func (s *BaseNuggetListener) ExitSourceidentifier(ctx *SourceidentifierContext) {}
+
+// EnterPrintId is called when production printId is entered.
+func (s *BaseNuggetListener) EnterPrintId(ctx *PrintIdContext) {
+	id := ctx.Id().GetText()
+	_,ok := History[id]
+	if ok {
+		fmt.Println(History[id])
+	} else {
+		fmt.Println("Key: ", id, " has no history")
+	}
+}
+
+// ExitPrintId is called when production printId is exited.
+func (s *BaseNuggetListener) ExitPrintId(ctx *PrintIdContext) {}
 
 // EnterSin is called when production sin is entered.
 func (s *BaseNuggetListener) EnterSin(ctx *SinContext) {}
