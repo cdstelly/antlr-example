@@ -3,11 +3,24 @@ package main
 import (
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 	"./nug"
-//	"./implements"
+	//	"./implements"
 	"os"
 	"fmt"
 	"bufio"
+	"flag"
 )
+
+var (
+	pathToInput	string
+	repeatInput	bool
+)
+
+
+func init() {
+	flag.StringVar(&pathToInput, "input", "", "Path to input")
+	flag.BoolVar(&repeatInput, "repeatInput", false, "Repeat parser input")
+	flag.Parse()
+}
 
 type TreeShapeListener struct {
 	*parser.BaseNuggetListener
@@ -18,29 +31,51 @@ func NewTreeShapeListener() *TreeShapeListener {
 }
 
 func (this *TreeShapeListener) EnterEveryRule(ctx antlr.ParserRuleContext) {
-	// fmt.Println(ctx.GetText())
+
+	if repeatInput {
+		fmt.Println(ctx.GetText())
+	}
 }
 
 func main() {
-	//fi, _ := antlr.NewFileStream(os.Args[1])
-	stdin := bufio.NewReader(os.NewFile(0, "stdin"))
-	for {
-		fmt.Printf("nugget> ")
-		var statement string
-		var ok bool
-		if statement, ok = readline(stdin); ok {
+	var stdin *bufio.Reader
 
-			fi := antlr.NewInputStream(statement)
-
-			lexer := parser.NewNuggetLexer(fi)
+	if pathToInput == "" {
+		stdin = bufio.NewReader(os.NewFile(0, "stdin"))
+		for {
+			fmt.Printf("nugget> ")
+			var statement string
+			var ok bool
+			if statement, ok = readline(stdin); ok {
+				fi := antlr.NewInputStream(statement)
+				lexer := parser.NewNuggetLexer(fi)
+				stream := antlr.NewCommonTokenStream(lexer,0)
+				p := parser.NewNuggetParser(stream)
+				p.AddErrorListener(antlr.NewDiagnosticErrorListener(true))
+				p.BuildParseTrees = true
+				tree := p.Nugget()
+				antlr.ParseTreeWalkerDefault.Walk(NewTreeShapeListener(), tree)
+			} else {
+				break
+			}
+		}
+		// Todo: file input causes an error on newlines
+	} else {
+		file, err := os.Open(pathToInput)
+		if err != nil {
+			panic(err)
+		}
+		defer file.Close()
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			input := antlr.NewInputStream(scanner.Text())
+			lexer := parser.NewNuggetLexer(input)
 			stream := antlr.NewCommonTokenStream(lexer,0)
 			p := parser.NewNuggetParser(stream)
 			p.AddErrorListener(antlr.NewDiagnosticErrorListener(true))
-			p.BuildParseTrees = true	//necessary?
+			p.BuildParseTrees = true
 			tree := p.Nugget()
 			antlr.ParseTreeWalkerDefault.Walk(NewTreeShapeListener(), tree)
-		} else {
-			break
 		}
 	}
 }
