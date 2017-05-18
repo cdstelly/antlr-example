@@ -3,18 +3,11 @@
 package parser // Nugget
 
 import "github.com/antlr/antlr4/runtime/Go/antlr"
-import "fmt"
-
 
 // BaseNuggetListener is a complete listener for a parse tree produced by NuggetParser.
 type BaseNuggetListener struct{}
 
 var _ NuggetListener = &BaseNuggetListener{}
-var History map[string]string
-
-func init () {
-	History = make(map[string]string)
-}
 
 // VisitTerminal is called when a terminal node is visited.
 func (s *BaseNuggetListener) VisitTerminal(node antlr.TerminalNode) {}
@@ -35,20 +28,64 @@ func (s *BaseNuggetListener) EnterNugget(ctx *NuggetContext) {}
 func (s *BaseNuggetListener) ExitNugget(ctx *NuggetContext) {}
 
 // EnterInitextract is called when production initextract is entered.
-func (s *BaseNuggetListener) EnterInitextract(ctx *InitextractContext) {
-        id := ctx.Id().GetText()
-	val := ctx.Target().GetText() + ":" + ctx.Subtype().GetText()
-	History[id] = val
-}
+func (s *BaseNuggetListener) EnterInitextract(ctx *InitextractContext) {}
 
 // ExitInitextract is called when production initextract is exited.
 func (s *BaseNuggetListener) ExitInitextract(ctx *InitextractContext) {}
+
+// EnterAssign is called when production assign is entered.
+func (s *BaseNuggetListener) EnterAssign(ctx *AssignContext) {}
+
+// ExitAssign is called when production assign is exited.
+func (s *BaseNuggetListener) ExitAssign(ctx *AssignContext) {}
 
 // EnterExecute is called when production execute is entered.
 func (s *BaseNuggetListener) EnterExecute(ctx *ExecuteContext) {}
 
 // ExitExecute is called when production execute is exited.
 func (s *BaseNuggetListener) ExitExecute(ctx *ExecuteContext) {}
+
+// EnterStreamTask is called when production streamTask is entered.
+func (s *BaseNuggetListener) EnterStreamTask(ctx *StreamTaskContext) {}
+
+// ExitStreamTask is called when production streamTask is exited.
+func (s *BaseNuggetListener) ExitStreamTask(ctx *StreamTaskContext) {}
+
+// EnterSave is called when production save is entered.
+func (s *BaseNuggetListener) EnterSave(ctx *SaveContext) {}
+
+// ExitSave is called when production save is exited.
+func (s *BaseNuggetListener) ExitSave(ctx *SaveContext) {}
+
+// EnterFilter is called when production filter is entered.
+func (s *BaseNuggetListener) EnterFilter(ctx *FilterContext) {}
+
+// ExitFilter is called when production filter is exited.
+func (s *BaseNuggetListener) ExitFilter(ctx *FilterContext) {}
+
+// EnterFilename is called when production filename is entered.
+func (s *BaseNuggetListener) EnterFilename(ctx *FilenameContext) {}
+
+// ExitFilename is called when production filename is exited.
+func (s *BaseNuggetListener) ExitFilename(ctx *FilenameContext) {}
+
+// EnterTimefilter is called when production timefilter is entered.
+func (s *BaseNuggetListener) EnterTimefilter(ctx *TimefilterContext) {}
+
+// ExitTimefilter is called when production timefilter is exited.
+func (s *BaseNuggetListener) ExitTimefilter(ctx *TimefilterContext) {}
+
+// EnterReference is called when production reference is entered.
+func (s *BaseNuggetListener) EnterReference(ctx *ReferenceContext) {}
+
+// ExitReference is called when production reference is exited.
+func (s *BaseNuggetListener) ExitReference(ctx *ReferenceContext) {}
+
+// EnterDate is called when production date is entered.
+func (s *BaseNuggetListener) EnterDate(ctx *DateContext) {}
+
+// ExitDate is called when production date is exited.
+func (s *BaseNuggetListener) ExitDate(ctx *DateContext) {}
 
 // EnterSubtype is called when production subtype is entered.
 func (s *BaseNuggetListener) EnterSubtype(ctx *SubtypeContext) {}
@@ -81,15 +118,7 @@ func (s *BaseNuggetListener) EnterSourceidentifier(ctx *SourceidentifierContext)
 func (s *BaseNuggetListener) ExitSourceidentifier(ctx *SourceidentifierContext) {}
 
 // EnterPrintId is called when production printId is entered.
-func (s *BaseNuggetListener) EnterPrintId(ctx *PrintIdContext) {
-	id := ctx.Id().GetText()
-	_,ok := History[id]
-	if ok {
-		fmt.Println(History[id])
-	} else {
-		fmt.Println("Key: ", id, " has no history")
-	}
-}
+func (s *BaseNuggetListener) EnterPrintId(ctx *PrintIdContext) {}
 
 // ExitPrintId is called when production printId is exited.
 func (s *BaseNuggetListener) ExitPrintId(ctx *PrintIdContext) {}

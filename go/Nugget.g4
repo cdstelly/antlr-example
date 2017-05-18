@@ -10,17 +10,27 @@ nugget:   sin 		EOF
 	| initextract 	EOF
 	| printId	EOF
 	| assign	EOF
+	| save		EOF 
 	| EOF
 ;
 
 initextract : StrLit '=' target EXTRACT subtype
+	    | initextract streamTask
 ;
 
 assign	: StrLit '=' StrLit ;
 
-execute	: StrLit '=' StrLit '|' task 
-	| StrLit '=' StrLit '|' task filter (',' filter)* 
-	| StrLit '=' StrLit '|' task StrLit
+execute	: StrLit '=' StrLit '|' task  (streamTask)*
+	| StrLit '=' StrLit '|' task filter (',' filter)*  (streamTask)*
+	| StrLit '=' StrLit '|' task StrLit (streamTask)*
+;
+
+streamTask : '|' task
+	   | '|' task filter (',' filter)*
+	   | '|' task StrLit
+;
+
+save :	'save' StrLit 'to' StrLit
 ;
 
 filter  : filename

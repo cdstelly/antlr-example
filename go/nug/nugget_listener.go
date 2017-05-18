@@ -14,8 +14,32 @@ type NuggetListener interface {
 	// EnterInitextract is called when entering the initextract production.
 	EnterInitextract(c *InitextractContext)
 
+	// EnterAssign is called when entering the assign production.
+	EnterAssign(c *AssignContext)
+
 	// EnterExecute is called when entering the execute production.
 	EnterExecute(c *ExecuteContext)
+
+	// EnterStreamTask is called when entering the streamTask production.
+	EnterStreamTask(c *StreamTaskContext)
+
+	// EnterSave is called when entering the save production.
+	EnterSave(c *SaveContext)
+
+	// EnterFilter is called when entering the filter production.
+	EnterFilter(c *FilterContext)
+
+	// EnterFilename is called when entering the filename production.
+	EnterFilename(c *FilenameContext)
+
+	// EnterTimefilter is called when entering the timefilter production.
+	EnterTimefilter(c *TimefilterContext)
+
+	// EnterReference is called when entering the reference production.
+	EnterReference(c *ReferenceContext)
+
+	// EnterDate is called when entering the date production.
+	EnterDate(c *DateContext)
 
 	// EnterSubtype is called when entering the subtype production.
 	EnterSubtype(c *SubtypeContext)
@@ -44,8 +68,32 @@ type NuggetListener interface {
 	// ExitInitextract is called when exiting the initextract production.
 	ExitInitextract(c *InitextractContext)
 
+	// ExitAssign is called when exiting the assign production.
+	ExitAssign(c *AssignContext)
+
 	// ExitExecute is called when exiting the execute production.
 	ExitExecute(c *ExecuteContext)
+
+	// ExitStreamTask is called when exiting the streamTask production.
+	ExitStreamTask(c *StreamTaskContext)
+
+	// ExitSave is called when exiting the save production.
+	ExitSave(c *SaveContext)
+
+	// ExitFilter is called when exiting the filter production.
+	ExitFilter(c *FilterContext)
+
+	// ExitFilename is called when exiting the filename production.
+	ExitFilename(c *FilenameContext)
+
+	// ExitTimefilter is called when exiting the timefilter production.
+	ExitTimefilter(c *TimefilterContext)
+
+	// ExitReference is called when exiting the reference production.
+	ExitReference(c *ReferenceContext)
+
+	// ExitDate is called when exiting the date production.
+	ExitDate(c *DateContext)
 
 	// ExitSubtype is called when exiting the subtype production.
 	ExitSubtype(c *SubtypeContext)
