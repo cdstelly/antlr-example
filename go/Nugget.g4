@@ -109,3 +109,8 @@ DATE	: DIGIT DIGIT '/' DIGIT DIGIT '/' DIGIT DIGIT DIGIT DIGIT;
 fragment DIGIT : '0'..'9';
 fragment DLMT  : ',';
 fragment WILDCARD : '*';
+
+
+LINE_COMMENT
+    :   '//' ~[\r\n]* -> skip
+    ;

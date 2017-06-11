@@ -1,4 +1,3 @@
-sin(3)
 test = "test.dd" extract files  
 test
 f = "file:target.dd" extract files
@@ -24,5 +23,4 @@ pdfs = "file:target.dd" extract files | select "*.pdf", ctime > "01/01/2015" | h
 
 save pdfs to pdfs.json
 
-fnames = f as (name, size)
-fnames = f as ($2, %5)
+// test test comment

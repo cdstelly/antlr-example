@@ -12,13 +12,12 @@ import (
 
 var (
 	pathToInput	string
-	repeatInput	bool
+	parrotInput	bool
 )
-
 
 func init() {
 	flag.StringVar(&pathToInput, "input", "", "Path to input")
-	flag.BoolVar(&repeatInput, "repeatInput", false, "Repeat parser input")
+	flag.BoolVar(&parrotInput, "parrotInput", false, "Repeat parser input")
 	flag.Parse()
 }
 
@@ -31,10 +30,21 @@ func NewTreeShapeListener() *TreeShapeListener {
 }
 
 func (this *TreeShapeListener) EnterEveryRule(ctx antlr.ParserRuleContext) {
-
-	if repeatInput {
-		fmt.Println(ctx.GetText())
+	if parrotInput {
+		fmt.Println("Entered a rule, result: " + ctx.GetText())
 	}
+}
+
+func (this *TreeShapeListener) EnterPrintId(ctx *parser.PrintIdContext) {
+	fmt.Println("printid: " + ctx.GetText())
+}
+
+func (this *TreeShapeListener) EnterInitextract(ctx *parser.InitextractContext) {
+	fmt.Println("extrating from filesystem..")
+}
+
+func (this *TreeShapeListener) EnterAssign(ctx *parser.AssignContext) {
+	fmt.Println("assigning a variable: " + ctx.StrLit(1).getText(1) + " with: " + ctx.StrLit(2))
 }
 
 func main() {
