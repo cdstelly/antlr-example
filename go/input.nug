@@ -23,4 +23,9 @@ pdfs = "file:target.dd" extract files | select "*.pdf", ctime > "01/01/2015" | h
 
 save pdfs to pdfs.json
 
+<<<<<<< HEAD
 // test test comment
+=======
+// fnames = f as (name, size)
+// fnames = f as ($2, %5)
+>>>>>>> c26264230a69669f9e7df0015765c12ddfa98c13

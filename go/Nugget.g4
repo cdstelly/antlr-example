@@ -96,10 +96,10 @@ FILES: 	'files'|'FILES';
 IMAGES:	'images'|'IMAGES';
 DOCUMENTS: 	'documents' | 'DOCUMENTS'; 
 EXTRACT:	'extract'|'EXTRACT';
-JOIN: 'join'|'JOIN';
+JOIN:   'join'|'JOIN';
 
 WS: [ \n\t\r]+ -> skip;
-
+COMMENT: '//' .*? -> skip;
 
 NUMBER: DIGIT+ ;
 StrLit  : ('a'..'z' | 'A'..'Z' | '.' | ':' | '*' | DIGIT)+;
