@@ -1,18 +1,18 @@
 package main
 
 import (
-	"github.com/antlr/antlr4/runtime/Go/antlr"
-	"./nug"
-	//	"./implements"
-	"os"
-	"fmt"
 	"bufio"
 	"flag"
+	"fmt"
+	"os"
+
+	"./nug"
+	"github.com/antlr/antlr4/runtime/Go/antlr"
 )
 
 var (
-	pathToInput	string
-	parrotInput	bool
+	pathToInput string
+	parrotInput bool
 )
 
 func init() {
@@ -44,7 +44,7 @@ func (this *TreeShapeListener) EnterInitextract(ctx *parser.InitextractContext) 
 }
 
 func (this *TreeShapeListener) EnterAssign(ctx *parser.AssignContext) {
-	fmt.Println("assigning a variable: " + ctx.StrLit(1).getText(1) + " with: " + ctx.StrLit(2))
+	fmt.Println("assigning to variable: ", ctx.StrLit(0).GetText(), " the value : ", ctx.StrLit(1).GetText())
 }
 
 func main() {
@@ -59,7 +59,7 @@ func main() {
 			if statement, ok = readline(stdin); ok {
 				fi := antlr.NewInputStream(statement)
 				lexer := parser.NewNuggetLexer(fi)
-				stream := antlr.NewCommonTokenStream(lexer,0)
+				stream := antlr.NewCommonTokenStream(lexer, 0)
 				p := parser.NewNuggetParser(stream)
 				p.AddErrorListener(antlr.NewDiagnosticErrorListener(true))
 				p.BuildParseTrees = true
@@ -80,7 +80,7 @@ func main() {
 		for scanner.Scan() {
 			input := antlr.NewInputStream(scanner.Text())
 			lexer := parser.NewNuggetLexer(input)
-			stream := antlr.NewCommonTokenStream(lexer,0)
+			stream := antlr.NewCommonTokenStream(lexer, 0)
 			p := parser.NewNuggetParser(stream)
 			p.AddErrorListener(antlr.NewDiagnosticErrorListener(true))
 			p.BuildParseTrees = true
