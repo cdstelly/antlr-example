@@ -1,24 +1,23 @@
 package main
 
 import (
-	"github.com/antlr/antlr4/runtime/Go/antlr"
-	"./nug"
-	//	"./implements"
-	"os"
-	"fmt"
 	"bufio"
 	"flag"
+	"fmt"
+	"os"
+
+	"./nug"
+	"github.com/antlr/antlr4/runtime/Go/antlr"
 )
 
 var (
-	pathToInput	string
-	repeatInput	bool
+	pathToInput string
+	parrotInput bool
 )
-
 
 func init() {
 	flag.StringVar(&pathToInput, "input", "", "Path to input")
-	flag.BoolVar(&repeatInput, "repeatInput", false, "Repeat parser input")
+	flag.BoolVar(&parrotInput, "parrotInput", false, "Repeat parser input")
 	flag.Parse()
 }
 
@@ -31,10 +30,21 @@ func NewTreeShapeListener() *TreeShapeListener {
 }
 
 func (this *TreeShapeListener) EnterEveryRule(ctx antlr.ParserRuleContext) {
-
-	if repeatInput {
-		fmt.Println(ctx.GetText())
+	if parrotInput {
+		fmt.Println("Entered a rule, result: " + ctx.GetText())
 	}
+}
+
+func (this *TreeShapeListener) EnterPrintId(ctx *parser.PrintIdContext) {
+	fmt.Println("printid: " + ctx.GetText())
+}
+
+func (this *TreeShapeListener) EnterInitextract(ctx *parser.InitextractContext) {
+	fmt.Println("extrating from filesystem..")
+}
+
+func (this *TreeShapeListener) EnterAssign(ctx *parser.AssignContext) {
+	fmt.Println("assigning to variable: ", ctx.StrLit(0).GetText(), " the value : ", ctx.StrLit(1).GetText())
 }
 
 func main() {
@@ -49,7 +59,7 @@ func main() {
 			if statement, ok = readline(stdin); ok {
 				fi := antlr.NewInputStream(statement)
 				lexer := parser.NewNuggetLexer(fi)
-				stream := antlr.NewCommonTokenStream(lexer,0)
+				stream := antlr.NewCommonTokenStream(lexer, 0)
 				p := parser.NewNuggetParser(stream)
 				p.AddErrorListener(antlr.NewDiagnosticErrorListener(true))
 				p.BuildParseTrees = true
@@ -70,7 +80,7 @@ func main() {
 		for scanner.Scan() {
 			input := antlr.NewInputStream(scanner.Text())
 			lexer := parser.NewNuggetLexer(input)
-			stream := antlr.NewCommonTokenStream(lexer,0)
+			stream := antlr.NewCommonTokenStream(lexer, 0)
 			p := parser.NewNuggetParser(stream)
 			p.AddErrorListener(antlr.NewDiagnosticErrorListener(true))
 			p.BuildParseTrees = true
